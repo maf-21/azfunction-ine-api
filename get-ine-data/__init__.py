@@ -42,7 +42,7 @@ container_client = ContainerClient.from_connection_string(
 today = int(date.today().strftime('%Y%m%d'))
 
 
-def get_parameters_range(reqUrl:str) -> list:
+def get_parameters_range(reqUrl: str) -> list:
     '''
     Get parameters to query the API, starting from 2011 until last year available of data. 
     This returns a list of parameters with available years to get data in the API
