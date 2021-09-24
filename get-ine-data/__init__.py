@@ -15,8 +15,7 @@ from azure.identity import DefaultAzureCredential
 
 # Define indicator to get data and API endpoint. Parameter for first year of data (Dim1) is 'S7A2011'
 indicator = '0008074'
-first_year_parameter = 'S7A2011'
-reqUrl = f"https://www.ine.pt/ine/json_indicador/pindica.jsp?varcd={indicator}&lang=EN&op=2&Dim1={first_year_parameter}"
+reqUrl = f"https://www.ine.pt/ine/json_indicador/pindica.jsp?varcd={indicator}&lang=EN&op=2&Dim1="
 
 
 # Initialize Credentials
@@ -49,7 +48,8 @@ def get_parameters_range(reqUrl):
     This returns a list of parameters with available years to get data in the API
     '''
     try:
-        response = requests.get(reqUrl)
+        first_year_parameter = 'S7A2011'
+        response = requests.get(reqUrl+first_year_parameter)
 
         if response.status_code == 200:
             logging.info('Acessing the API to get the data range')
