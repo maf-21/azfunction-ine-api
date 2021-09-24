@@ -170,12 +170,11 @@ def main(mytimer: func.TimerRequest) -> None:
     logging.info('Starting execution...')
 
     parameters = get_parameters_range(reqUrl)
-    raw_data = get_raw_data(reqUrl, parameters)
 
+    raw_data = get_raw_data(reqUrl, parameters)
     load_raw_data(raw_data)
 
     clean_data = transform_raw_data(raw_data)
-
     load_clean_data(clean_data)
 
     if mytimer.past_due:
