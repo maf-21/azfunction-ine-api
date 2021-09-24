@@ -42,7 +42,7 @@ container_client = ContainerClient.from_connection_string(
 today = int(date.today().strftime('%Y%m%d'))
 
 
-def get_parameters_range(reqUrl):
+def get_parameters_range(reqUrl:str) -> list:
     '''
     Get parameters to query the API, starting from 2011 until last year available of data. 
     This returns a list of parameters with available years to get data in the API
@@ -71,7 +71,7 @@ def get_parameters_range(reqUrl):
     return parameters_list
 
 
-def get_raw_data(reqUrl, parameters_list):
+def get_raw_data(reqUrl: str, parameters_list: list) -> dict:
     '''
     Query the API for each element (year) in parameters_list, starting from 2011 until last year available.
     Returns a dictionary with data for all available years.
@@ -98,7 +98,7 @@ def get_raw_data(reqUrl, parameters_list):
     return data
 
 
-def load_raw_data(raw_data):
+def load_raw_data(raw_data: dict) -> None:
     '''
     Load raw data in blob storage defined, directory '/extract'
     '''
@@ -114,8 +114,10 @@ def load_raw_data(raw_data):
     logging.info(
         f'Extraction loaded in extract folder. The output file is {output_file}')
 
+    return None
 
-def transform_raw_data(raw_data):
+
+def transform_raw_data(raw_data: dict) -> pd.DataFrame:
     """
     Transform raw data, flattening the nested json in a dataframe, removing unnecessary columns and adding new ones.
     """
@@ -136,10 +138,11 @@ def transform_raw_data(raw_data):
     df.drop(columns=['sinal_conv', 'sinal_conv_desc'], inplace=True)
     df.rename(columns={'geocod': 'Geo Code', 'geodsg': 'Geo',
               'dim_3': 'Crime Code', 'dim_3_t': 'Crime', 'valor': 'Value'}, inplace=True)
+
     return df
 
 
-def load_clean_data(clean_data):
+def load_clean_data(clean_data: pd.DataFrame) -> None:
     """
     Load clean data, in a dataframe format, in the blob storage, '/data' directory.
     This will store the data as a csv file.
@@ -154,10 +157,12 @@ def load_clean_data(clean_data):
 
     logging.info('Clean data loaded in data folder')
 
+    return None
+
 
 def main(mytimer: func.TimerRequest) -> None:
     """
-    Main function that will call all the others.
+    Main function that will call the others.
     """
     utc_timestamp = datetime.datetime.utcnow().replace(
         tzinfo=datetime.timezone.utc).isoformat()
@@ -176,3 +181,5 @@ def main(mytimer: func.TimerRequest) -> None:
         logging.info('The timer is past due!')
 
     logging.info('Python timer trigger function ran at %s', utc_timestamp)
+
+    return None
