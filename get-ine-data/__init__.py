@@ -155,7 +155,8 @@ def load_clean_data(clean_data: pd.DataFrame) -> None:
         overwrite=True
     )
 
-    logging.info('Clean data loaded in data folder')
+    logging.info(
+        f'Clean data loaded in data folder. The output file is {output_file}')
 
     return None
 
