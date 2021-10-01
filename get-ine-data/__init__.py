@@ -4,7 +4,6 @@ import logging
 import requests
 from requests.exceptions import HTTPError
 import pandas as pd
-from pandas import json_normalize
 import json
 
 import azure.functions as func
@@ -127,7 +126,7 @@ def transform_raw_data(raw_data: dict) -> pd.DataFrame:
     for item in raw_data.items():
         col = item[0]
         logging.info(f'Transforming data for year: {col}')
-        df_flatenned = json_normalize(raw_data, record_path=col)
+        df_flatenned = pd.json_normalize(raw_data, record_path=col)
         df_flatenned['Year'] = col
         clean_data.append(df_flatenned)
 
